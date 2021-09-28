@@ -3,8 +3,7 @@ const logUpdate = require('log-update');
 const { Stats } = require('fs');
 const { between, generateRandomSpace, generateRightSpace} = require('./utils')
 
-
-const rl = readline.createInterface({
+gonst rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
   });
@@ -14,8 +13,6 @@ readline.emitKeypressEvents(process.stdin, rl);
 if (process.stdin.isTTY) {
   process.stdin.setRawMode(true);
 }
-
-
 
 process.stdin.on('keypress', (character, key) => {
   switch (character) {
@@ -36,8 +33,6 @@ rl.on('close', () => {
     process.exit(0)
 })
 
-
-
 const state = {
   dead: false,
   life: 3,
@@ -48,7 +43,6 @@ const state = {
 }
 
 function donnerAManger() {
-  
   if (state.nourriture === 9) {
     state.nourriture += 1
   } else if (state.nourriture === 8) {
@@ -70,24 +64,22 @@ function play() {
   ball = '🏀';
 
   return generateRightSpace() + ball[Math.floor(Math.random() * ball.length)]
-
 }
 
 function body() {
   if (state.dead === false) {
-  
       if (state.nourriture > 6) {
-       bear = ['ʕ•ᴥ•ʔ']
+        bear = ['ʕ•ᴥ•ʔ']
       } else if (state.nourriture > 1 && state.nourriture< 5) {
-       bear = ['ʕ·ᴥ·ʔ']
+        bear = ['ʕ·ᴥ·ʔ']
       } else if (state.nourriture < 1) {
-       bear = ['ʕºᴥºʔ']
+        bear = ['ʕºᴥºʔ']
       }
 
     return generateRandomSpace() + bear[Math.floor(Math.random() * bear.length)]
-  } else  {
-    return "⎧ᴿᴵᴾ⎫◟◟◟◟◟◟◟◟ ❀◟(ó ̯ ò, )"
   }
+
+  return "⎧ᴿᴵᴾ⎫◟◟◟◟◟◟◟◟ ❀◟(ó ̯ ò, )"
 }
 
 
@@ -99,7 +91,6 @@ const heart = [
 ]
 
 function getLife() {
-  
   const total = 3
   let plein = state.life
   let vide = total - plein
@@ -133,41 +124,45 @@ function getLife() {
 }
 
 function getNourriture() {
-  if (state.dead === false) {
-    const barCompleteChar = '🍜'
-    const barIncompleteChar = ' '
-    
-    const total = 10
-    const plein = (state.nourriture *total)/10
-    const vide = total - plein
+  if (state.dead)
+    return 
+  }
+
+  const barCompleteChar = '🍜'
+  const barIncompleteChar = ' '
+  
+  const total = 10
+  const plein = (state.nourriture *total)/10
+  const vide = total - plein
 
   if (state.nourriture < 0) {
     state.life --
   }
-  if (state.nourriture <= 0 && state.dead === false) {
+  if (state.nourriture <= 0) {
     return "I'M HUNGRY"
   }
   return new Array(plein).fill(barCompleteChar).join('') + new Array(vide).fill(barIncompleteChar).join('') 
-  }
 }
 
 function getPlay() {
-  if (state.dead === false) {
-    const barCompleteChar = '🏀'
-    const barIncompleteChar = ' '
-    
-    const total = 10
-    const plein = (state.play *total)/10
-    const vide = total - plein
-
-    if (state.play < 0) {
-      state.life --
-    }
-    if (state.play <= 0 && state.dead === false) {
-      return "I WANT TO PLAY !"
-    }
-    return new Array(plein).fill(barCompleteChar).join('') + new Array(vide).fill(barIncompleteChar).join('') 
+  if (state.dead) {
+    return
   }
+
+  const barCompleteChar = '🏀'
+  const barIncompleteChar = ' '
+  
+  const total = 10
+  const plein = (state.play *total)/10
+  const vide = total - plein
+
+  if (state.play < 0) {
+    state.life --
+  }
+  if (state.play <= 0 && state.dead === false) {
+    return "I WANT TO PLAY !"
+  }
+  return new Array(plein).fill(barCompleteChar).join('') + new Array(vide).fill(barIncompleteChar).join('') 
 }
 
 function giveFood() {
@@ -202,6 +197,4 @@ setInterval(function() {
   if (state.time % 5 === 0) {
     state.play --
   }
-
 }, 1000)
-
